@@ -1,0 +1,22 @@
+
+    <div class="iq-testimonial text-left iq-testimonial-1">
+        <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="30">
+            <div *ngFor="let lists of List" class="item">
+                <div class="iq-testimonial-info">
+                    <div class="iq-testimonial-content">
+                        <div class="iq-testimonial-quote"><i aria-hidden="true" class="fa fa-quote-right"></i></div>
+                        <p>{{ lists.desc }}</p>
+                        <div class="iq-testimonial-member">
+                            <div class="iq-testimonial-avtar">
+                                <img alt="image-testimonial" class="img-fluid center-block" src="{{ lists.image }}">
+                            </div>
+                            <div class="avtar-name">
+                                <div class="iq-lead">{{ lists.name }}</div>
+                                <span class="iq-post-meta">{{ lists.designation }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

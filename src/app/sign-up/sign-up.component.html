@@ -1,0 +1,101 @@
+<app-header [logoImg]="logoImage" [navItemList]="navItems"></app-header>
+<div class=" " >
+    <div class="container-fluid p-0">
+        <div class="text-left iq-breadcrumb-3 iq-bg-over black">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-sm-12 d-flex justify-content-center">
+                        <form class="w-50 " [formGroup]="form" (ngSubmit)="submit()">
+                          <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+                          >Name</mat-label
+                        >
+                        <mat-form-field
+                          appearance="outline"
+                          class="w-100"
+                          color="primary"
+                        >
+                          <input matInput formControlName="username" />
+                          @if(f['username'].touched && f['username'].invalid) {
+                          <mat-hint class="m-b-16 error-msg">
+                            @if(f['username'].errors && f['username'].errors['required']) {
+                            <div class="text-error">Name is required.</div>
+                            } @if(f['username'].errors && f['username'].errors['minlength']) {
+                            <div class="text-error">Name should be 6 character.</div>
+                            }
+                          </mat-hint>
+                          }
+                        </mat-form-field>
+                        <!-- email -->
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+                          >Email Address</mat-label
+                        >
+                        <mat-form-field
+                          appearance="outline"
+                          class="w-100"
+                          color="primary"
+                        >
+                          <input matInput type="email" formControlName="email" />
+                          @if(f['email'].touched && f['email'].invalid) {
+                          <mat-hint class="m-b-16 error-msg">
+                            @if(f['email'].errors && f['email'].errors['required']) {
+                            <div class="text-error">Email is required.</div>
+                            }
+                          </mat-hint>
+                          }
+                        </mat-form-field>
+                        <!-- password -->
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+                          >Password</mat-label
+                        >
+                        <mat-form-field
+                          appearance="outline"
+                          class="w-100"
+                          color="primary"
+                        >
+                          <input matInput type="password" formControlName="password" />
+                          @if(f['password'].touched && f['password'].invalid) {
+                          <mat-hint class="m-b-16 error-msg">
+                            @if( f['password'].errors && f['password'].errors['required'])
+                            {
+                            <div class="text-error">Password is required.</div>
+                            }
+                          </mat-hint>
+                          }
+                        </mat-form-field>
+          
+          
+          
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Confirm Password</mat-label>
+                        <mat-form-field appearance="outline" class="w-100" color="primary">
+                          <input matInput type="password" formControlName="confirmPassword" />
+                          <mat-hint *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors?.['required']" class="m-b-16 error-msg">
+                            <div class="text-error">Confirm Password is required.</div>
+                          </mat-hint>
+                          <mat-hint *ngIf="form.errors?.['passwordsNotMatching']" class="m-b-16 error-msg">
+                            <div class="text-error">Passwords do not match.</div>
+                          </mat-hint>
+                        </mat-form-field>
+          
+          
+                        <div class="d-flex justify-content-end">
+
+                          <button
+                            mat-flat-button
+                            color="primary"
+                            class="w-25"
+                            [disabled]="!form.valid"
+                          >
+                            Sign Up
+                          </button>
+                        </div>
+                           
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  <app-footer [logoImg]="logoImage" [contactInfo]="contactInfo"></app-footer>

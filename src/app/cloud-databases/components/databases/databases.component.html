@@ -1,0 +1,22 @@
+<section class="iq-pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 ">
+                <app-title-section [titleSectionProp]="titleSectionProp"></app-title-section>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let list of List" class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="0.2s">
+                <div class="iq-icon-box iq-icon-box-style-1">
+                    <div class="icon-box-img">
+                        <img src="{{ list.image }}" class="img-fluid" alt="QLOUD">
+                    </div>
+                    <div class="icon-box-content">
+                        <h5 class="icon-box-title"> <a href="#">{{ list.title }}</a></h5>
+                        <p class="icon-box-desc">{{ list.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,34 @@
+<div class="owl-carousel owl-loaded owl-drag" data-dots="false" data-nav="false" data-items="3" data-items-laptop="3" data-items-tab="2" data-items-mobile="1" data-items-mobile-sm="1" data-autoplay="true" data-loop="true" data-margin="30">
+    <div *ngFor="let lists of blogList" class="item">
+        <div class="iq-blog-box">
+            <div class="iq-blog-image clearfix">
+                <img src="{{ lists.img }}" class="img-fluid" alt="unisaas-blog">
+                <ul class="iq-blogtag">
+                    <li><a >{{ lists.name }}</a></li>
+                </ul>
+            </div>
+            <div class="iq-blog-detail">
+                <div class="iq-blog-meta">
+                    <ul class="iq-postdate">
+                        <li class="list-inline-item">
+                            <i class="fa fa-calendar mr-2" aria-hidden="true"></i>
+                            <span class="screen-reader-text">Posted on</span>
+                            <a   rel="bookmark">
+                                <time class="entry-date published updated" datetime="2020-02-17T06:43:49+00:00">{{ lists.time }}</time>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="blog-title">
+                    <a  >
+                        <h5 class="mb-3">{{ lists.title }}</h5>
+                    </a>
+                </div>
+                <p class="">{{lists.desc}}</p>
+                <div class="blog-button">
+                    <a class="iq-btn-link"  >Read More<i class="ml-2 ion-ios-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

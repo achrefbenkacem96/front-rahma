@@ -1,0 +1,20 @@
+<div class="iq-team iq-team-slider iq-team-style-9">
+    <div class="owl-carousel" data-dots="false" data-nav="false" data-items="4" data-items-laptop="3" data-items-tab="2" data-items-mobile="1" data-items-mobile-sm="1" data-autoplay="true" data-loop="true" data-margin="30">
+        <div *ngFor="let list of List" class="iq-team-blog">
+            <div class="iq-team-img">
+                <img class="img-fluid" src="{{ list.image }}" alt="image">
+                <div class="iq-team-social">
+                    <ul>
+                        <li *ngFor="let social of list.socialLinks"><a [routerLink]="[social.link]"><i class="{{ social.icon }}"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="iq-team-description">
+                <div class="iq-team-info">
+                    <h5 class="member-text">{{ list.name }}</h5>
+                    <span class="designation-text">{{ list.design }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

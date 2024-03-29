@@ -1,0 +1,41 @@
+<!-- Header -->
+<header id="main-header" class="header-main {{ classHeader ? 'header2' : '' }}" style="
+background: #0d1e67;
+">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand" href="#">
+            <img id="{{ logoId ? 'logo_img' : '' }}" class="img-fluid logo" src="{{ logoImg }}" alt="Qloud"/>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="menu-btn d-inline-block" id="menu-btn">
+              <span class="line"></span>
+              <span class="line"></span>
+              <span class="line"></span>
+            </span>
+            <span class="ion-navicon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+              <li class="nav-item dropdown" *ngFor="let option of navItemList">
+                <a class="nav-link {{option.submenu && 'dropdown-toggle'}} {{ option.href === '/'? option.href ===currentPath :currentPath.includes(option.href) ? 'active' : '' }}" [routerLink]="option.href" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ option.title }}</a>
+                <div class="dropdown-menu" *ngIf="option.submenu" aria-labelledby="navbarDropdown">
+                  <a *ngFor="let child of option.submenu" class="dropdown-item" [routerLink]=" option.href+ child.href" [routerLinkActive]="['active']" routerLinkActive="active">{{ child.title }}</a> 
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="sub-main">
+            <ul>
+              <li class="d-inline"><a [routerLink]="['/login']" [routerLinkActive]="['active']" routerLinkActive="active" class="login iq-button iq-btn-outline iq-btn-round"  >Login</a></li>
+              <li class="d-inline"><a [routerLink]="['/sign-up']" [routerLinkActive]="['active']" routerLinkActive="active" class="signup iq-button default iq-btn-round"  >Sign Up</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Header End -->

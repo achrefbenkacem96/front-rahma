@@ -1,0 +1,36 @@
+<div class="row">
+    <div  class="col-lg-{{ lg }} col-md-{{ md }}" *ngFor="let list of blogList">
+        <div class="iq-blog-box">
+            <div class="iq-blog-image clearfix">
+                <img src="{{ list.img }}" class="img-fluid" alt="qloud" />
+                <ul class="iq-blogtag">
+                    <li><a href="javascript:void(0)">{{ list.name}}</a></li>
+                </ul>
+            </div>
+            <div class="iq-blog-detail">
+                <div class="iq-blog-meta">
+                    <ul class="iq-postdate">
+                        <li class="list-inline-item">
+                            <i class="fa fa-calendar mr-2"></i>
+                            <span class="screen-reader-text">Posted on</span>
+                            <a href="javascript:void(0)" rel="bookmark">
+                                <time class="entry-date published updated" datetime="2020-02-17T06:44:40+00:00">{{ list.time }}</time>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="blog-title">
+                    <a [routerLink]="[list.link]">
+                        <h5 class="mb-3">{{ list.title }}</h5>
+                    </a>
+                </div>
+                <div class="blog-content">
+                    <p>{{ list.desc }}</p>
+                </div>
+                <div class="blog-button">
+                    <a class="iq-btn-link" [routerLink]="[list.link]">Read More<i class="ml-2 ion-ios-arrow-right"             ></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

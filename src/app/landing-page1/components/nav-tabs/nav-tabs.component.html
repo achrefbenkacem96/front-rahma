@@ -1,0 +1,42 @@
+<section class="pt-0 iq-sahpe iq-pb-70">
+    <img src="./assets/images/others/shape1.png" class="img-fluid shape" alt="QLOUD">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <app-title-section [titleSectionProp]="titleSectionProp"></app-title-section>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="iq-tabs iq-tab-vertical-1  iq-box-shadow">
+                    <div class="row align-items-stretch">
+                        <div class="col-lg-4">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <li *ngFor="let nav of navList" class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="{{ '#' + nav.id }}" role="tab" [attr.aria-selected]=" nav.active !== undefined ? true : false ">
+                                        <div class="media">
+                                            <img src="{{ nav.image }}" class="img-fluid" alt="QLOUD">
+                                            <div class="media-body">
+                                                <h6 class="tab-title">{{ nav.title }}</h6>
+                                                <p class="mb-0 tab-title-desc">{{ nav.sub_title }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="tab-content">
+                                <div *ngFor="let nav of navList" id="{{ nav.id }}" class="tab-pane fade  {{ nav.active !== undefined && nav.active ? 'show active' : '' }}">
+                                    <div>
+                                        <img class="img-fluid" src="{{ nav.content_image }}" alt="qloud">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

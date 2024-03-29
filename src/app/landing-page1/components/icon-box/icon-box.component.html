@@ -1,0 +1,29 @@
+<section class="wow fadeInUp pt-0 iq-pb-70" data-wow-duration="0.6s">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center iq-title-box iq-title-default iq-title-box-2">
+                    <div class="iq-title-icon">
+                    </div>
+                    <span class="iq-subtitle">Our key</span>
+                    <h2 class="iq-title">Our key differentiators </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row"> 
+                <div *ngFor="let item of items" class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="iq-icon-box iq-icon-box-style-1">
+                        <div class="icon-box-img">
+                            <img src="{{ item.image }}" class="img-fluid" alt="QLOUD">
+                        </div>
+                        <div class="icon-box-content">
+                            <h5 class="icon-box-title"> <a href="{{ item.href }}">{{ item.title }}</a></h5>
+                            <p class="icon-box-desc">{{ item.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+           
+        </div>
+    </div>
+</section>

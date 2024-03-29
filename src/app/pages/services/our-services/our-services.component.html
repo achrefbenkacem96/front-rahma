@@ -1,0 +1,31 @@
+<section class="iq-pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <app-title-section [titleSectionProp]="titleSectionProp"></app-title-section>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let list of List" class="col-lg-4 col-md-6 col-sm-12">
+                <div class="iq-fancy-box-list iq-fancy-box-list-1  text-left iq-shadow">
+                    <div class="iq-fancy-box-content">
+                        <div class="iq-img-area">
+                            <img src="{{ list.image }}" class="img-fluid" alt="QLOUD">
+                        </div>
+                        <div class="iq-fancy-details">
+                            <h4 class="iq-fancy-title"> {{ list.title }}</h4>
+                            <div class="special-content">
+                                <p class="fancy-box-content"> {{ list.desc }}</p>
+                            </div>
+                            <div class="iq-list iq-one-column">
+                                <ul class="iq-list-with-icon">
+                                    <li *ngFor="let service of list.services"><i class="ion ion-android-checkbox-outline"></i>{{ service.title }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

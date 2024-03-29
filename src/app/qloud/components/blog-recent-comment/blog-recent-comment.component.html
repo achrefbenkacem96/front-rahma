@@ -1,0 +1,10 @@
+<div class="widget widget_recent_comments">
+    <h2 class="widget-title">Recent Comments</h2>
+    <ul id="recentcomments">
+        <li *ngFor="let list of List" class="recentcomments">
+            <span class="comment-author-link">
+                <a href='#' class='url'>{{ list.title }}</a>
+            </span>
+        </li>
+    </ul>
+</div>

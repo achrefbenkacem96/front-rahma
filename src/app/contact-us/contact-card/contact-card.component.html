@@ -1,0 +1,17 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div *ngFor="let list of List" class="col-lg-4  col-md-6">
+                <div class="iq-icon-box iq-icon-box-style-2 text-left ">
+                    <div class="icon-box-img">
+                        <i aria-hidden="true" class="{{ list.icon }}"></i>
+                    </div>
+                    <div class="icon-box-content">
+                        <h5 class="icon-box-title"><a href="javascript:void(0)">{{ list.title }}</a></h5>
+                        <p class="icon-box-desc"> {{ list.desc }} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

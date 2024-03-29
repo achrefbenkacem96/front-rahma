@@ -1,0 +1,12 @@
+@import "assets/css/qloud-style.css";
+
+/* Slick Theme */
+@import "assets/css/slick-theme.css";
+
+@import "assets/css/slick.css";
+
+/* Owl  Carousel*/
+@import "assets/css/owl.carousel.min.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

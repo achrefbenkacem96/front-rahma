@@ -1,0 +1,31 @@
+<section class="main-bg" style="background: url(./assets/images/others/06.jpg) no-repeat 0 0; background-attachment: fixed; background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-lg-0 mb-5">
+                <app-title-section [titleSectionProp]="titleSectionProp"></app-title-section>
+                <div class="iq-list  iq-two-column">
+                    <ul class="iq-list-with-icon">
+                        <li *ngFor="let language of Languages" class="text-white"><i class="ion ion-checkmark-round"></i>{{ language.title }}</li>
+                    </ul>
+                </div>
+                <div class="iq-btn-container mt-4">
+                    <a class="iq-button iq-btn-medium iq-btn-round iq-btn-flat d-inline" href="javascript:void(0)">Read More</a>
+                </div>
+            </div>
+            <div class="col-lg-6 align-self-stretch align-self-center">
+                <div class="iq-popup-video">
+                    <div class="iq-video-img position-relative">
+                        <div class="iq-video-icon wow FadeIn">
+                            <a href="https://www.youtube.com/watch?v=XHOmBV4js_E" class="iq-video popup-youtube"><i aria-hidden="true" class="ion ion-play"></i> </a>
+                            <div class="iq-waves">
+                                <div class="waves wave-1"></div>
+                                <div class="waves wave-2"></div>
+                                <div class="waves wave-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

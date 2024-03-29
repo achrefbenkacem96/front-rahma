@@ -1,0 +1,32 @@
+<section class="iq-pricing-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <app-title-section [titleSectionProp]="titleSectionProp"></app-title-section>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let item of items" class="col-lg-4 col-md-6 col-sm-12">
+                <div class="iq-price-container iq-price-table-6 text-center iq-box-shadow wow fadeInUp {{ item.active !== undefined && item.active ? 'active' : '' }}" >
+                    <div class="iq-price-header">
+                        <span class="iq-price-label">{{item.title}}</span>
+                        <h4 class="iq-price">{{item.price}}<span class="iq-price-desc">{{item.plan_desc}}</span></h4>
+                        <p class="iq-price-description">{{item.description}}</p>
+                    </div>
+                    <div class="iq-price-body">
+                        <ul class="iq-price-service">
+                            <li *ngFor="let service of item.services"  class="{{ service.active !== undefined && service.active ? 'active' : 'inactive' }}">
+                                <span>{{ service.title }}</span><i aria-hidden="true" class=""></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="iq-price-footer">
+                        <div class="iq-btn-container">
+                            <a class="iq-button iq-btn-round d-inline" href="#">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
