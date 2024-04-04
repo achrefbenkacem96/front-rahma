@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit{
     if (this.form.valid) {
       //@ts-ignore
       localStorage.setItem('username', this.form.value.username)
-      this.userService.update( this.form.value, this.user.id ).subscribe({
+      this.userService.update(this.user, this.user.id ).subscribe({
         next: (res: any) => { // Specify the type of 'res' as 'any[]'
            this.user = res
            console.log("🚀 ~ ProfileComponent ~ this.userService.getByUsername ~ this.user:", this.user)
