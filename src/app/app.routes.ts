@@ -8,7 +8,7 @@ import { ContactUs2Component } from './contact-us/contact-us2.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
- 
+
 export const routes: Routes = [
      {path:'', component: IndexComponent},
      {path:'about-us', component: AboutUsTwoComponent},
@@ -18,5 +18,5 @@ export const routes: Routes = [
      {path:'login', component: LoginComponent},
      {path:'sign-up', component: SignUpComponent},
      { path: 'dashboard', loadChildren: ()=> import('./dashboard/app.routes').then(m => m.routes) },
-      {path:'contact-us', component: ContactUs2Component} 
+      {path:'contact-us', component: ContactUs2Component}
  ];

@@ -1,0 +1,63 @@
+<div class="grid">
+  <p-toast></p-toast>
+
+  <form>
+    <div class="col-12">
+      <div class="card">
+        <h5>Profile</h5>
+        <form *ngIf="user" [formGroup]="form" (ngSubmit)="submit()">
+
+          <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+              <label htmlFor="username" >Username</label>
+              <input pInputText id="username" type="text" [(ngModel)]="user.username"  formControlName="username" />
+              @if(f['username'].touched && f['username'].invalid) {
+
+                  @if(f['username'].errors && f['username'].errors['required']) {
+                    <p-message severity="error" text="Field is required"></p-message>
+                  }
+                  @if(f['username'].errors && f['username'].errors['minlength']) {
+                    <p-message severity="error" text="Field should be 6 character."></p-message>
+                    }
+                 }
+            </div>
+            <div class="field col-12 md:col-6">
+              <label htmlFor="password">Password</label>
+              <input pInputPassword id="password" type="password" [(ngModel)]="user.password"  formControlName="password" />
+              @if(f['password'].touched && f['password'].invalid) {
+                @if(f['password'].errors && f['password'].errors['required']) {
+                  <p-message severity="error" text="Field is required"></p-message>
+                }
+                @if(f['password'].errors && f['password'].errors['minlength']) {
+                  <p-message severity="error" text="Field should be 6 character."></p-message>
+                  }
+               }
+            </div>
+            <div class="field col-12">
+              <label htmlFor="email">email</label>
+              <input pInputPassword id="email" type="email" [(ngModel)]="user.email"  formControlName="email"/>
+              @if(f['email'].touched && f['email'].invalid) {
+                @if(f['email'].errors && f['email'].errors['required']) {
+                  <p-message severity="error" text="Field is required"></p-message>
+                }
+               }
+            </div>
+            <div class="field col-12 md:col-6">
+              <label htmlFor="numtel">numtel</label>
+              <input pInputText id="numtel" type="number" [(ngModel)]="user.numtel"  formControlName="numtel"/>
+            </div>
+            <div class="field col-12 md:col-6">
+              <label htmlFor="refnv">refnv</label>
+              <input pInputText id="refnv" type="text" [(ngModel)]="user.refnv"  formControlName="refnv"/>
+            </div>
+
+            <div class="field col-12 md:col-6">
+              <button pButton label="Update"></button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </form>
+</div>

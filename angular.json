@@ -31,7 +31,9 @@
               "src/assets/revslider/css/rs6.css",
               "src/styles.css",
               "src/assets/css/responsive.css",
-              "src/assets/css/ionicons.min.css"
+              "src/assets/css/ionicons.min.css",
+              "./node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "./node_modules/primeng/resources/primeng.min.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",

@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceUserService {
+export class UserService {
   private path = environment.apiUrl
   token!:string | null
   constructor(private httpClient: HttpClient) { }
@@ -15,6 +15,13 @@ export class ServiceUserService {
     //@ts-ignore
     const header = new HttpHeaders().set("Authorization", "Bearer "+ this.token);
     return this.httpClient.get(this.path + "/user/retrieve-all-user" ,{headers: header})
+  }
+  getByUsername(username : any){
+    this.token = localStorage.getItem('accessToken');
+    console.log("🚀 ~ UsersService ~ getAll ~ this.token:", this.token)
+    //@ts-ignore
+    const header = new HttpHeaders().set("Authorization", "Bearer "+ this.token);
+    return this.httpClient.get(this.path + "/user/find-by-username/"+username ,{headers: header})
   }
   addUser(body: any) {
     const token = localStorage.getItem('accessToken');
@@ -27,7 +34,7 @@ export class ServiceUserService {
 
     return this.httpClient.post<any>(`${this.path}/user/Add-user`, body, { headers });
   }
-  update(body: any,id:number) {
+  update(body: any,id:any) {
     const token = localStorage.getItem('accessToken');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -36,12 +43,12 @@ export class ServiceUserService {
 
     return this.httpClient.put<any>(`${this.path}/user/modifyuser/${id}`, body, { headers });
   }
-  delete(userId: number) {
+  delete(userId: any) {
     const token = localStorage.getItem('accessToken');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     return this.httpClient.delete<void>(`${this.path}/user/remove-user/${userId}`, { headers });
   }
- 
+
 }

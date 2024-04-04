@@ -37,7 +37,7 @@ export class LoginComponent {
   data : any = {
     title:"Services"
   };
-  
+
   constructor(private plugins: PluginsService,  private _ngZone: NgZone, private router: Router, private authentication: AuthenticationService) { }
 
   public navItems: any = topMenuBarItems;
@@ -60,7 +60,7 @@ export class LoginComponent {
         localStorage.setItem('role',res.roles[0])
          //@ts-ignore
         localStorage.setItem('username',res.username)
-        window.location.href = '/dashboard/users' ;
+        window.location.href = '/dashboard' ;
         return {
         }
       },

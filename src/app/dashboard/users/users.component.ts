@@ -1,237 +1,315 @@
-import { AfterViewInit, Component, Inject, Optional, ViewChild } from '@angular/core';
-import { SidebarComponent } from '../sidebar/sidebar.component';
-import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { ServiceUserService } from '../../services/service-user.service';
-import { MaterialModule } from '../../material.module';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AppAddUserComponent } from './add/add.component';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnInit,
+  Optional,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
- import { FormsModule } from '@angular/forms';
-import { IconsModule } from './icon.module';
-export interface User {
-  userId: number;
-  username: string;
-   email: string;
-  numtel: string;
-  status: string;
-  roles: string;
-}
+import { FormsModule } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { RatingModule } from 'primeng/rating';
+import { ToolbarModule } from 'primeng/toolbar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { UserService } from '../../services/service-user.service';
+import { User } from '../../models/user';
+import { Role } from '../../models/role';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, FormsModule,  IconsModule, SidebarComponent, MaterialModule],
+  imports: [
+    CommonModule,
+    InputNumberModule,
+    RadioButtonModule,
+    FormsModule,
+    ButtonModule,
+    DropdownModule,
+    FileUploadModule,
+    ToolbarModule,
+     TableModule,
+    ConfirmDialogModule,
+    ConfirmDialogModule,
+    TagModule,
+    ToastModule,
+    DialogModule,
+    RatingModule,
+  ],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  styleUrl: './users.component.css',
+  providers: [MessageService, ConfirmationService],
 })
-export class UsersComponent implements AfterViewInit  {
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+export class UsersComponent implements OnInit {
+  userDialog: boolean = false;
 
-  users: User[] = [];
+  users!: User[];
+  role: any = localStorage.getItem('role');
+  role_?: Role;
+  user!: User;
+  formDialog!: string;
 
-  displayedColumns: string[] = ['#','username', 'email', 'numtel', 'roles', 'status','action'];
-  dataSource = new MatTableDataSource(this.users);
+  selectedUsers!: User[] | null;
 
-  //@ts-ignore
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
-  constructor( public dialog: MatDialog, public serviceUser: ServiceUserService) { }
+  submitted: boolean = false;
+  selectedRole?: Role  ;
 
-  ngAfterViewInit () {
-    console.log('test');
-    
-    this.loadUsers()
-    this.dataSource.paginator = this.paginator;
+  statuses!: any[];
+  roles: Role[] = [
+        { name: 'ROLE_USER', id: 1 },
+        { name: 'ROLE_ADMIN', id: 2},
+        { name: 'ROLE_RESPONSABLE', id: 3 },
+
+    ];
+  constructor(
+    private userService: UserService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {
+    this.selectedRole = this.roles[1];
+
   }
 
-  
+  ngOnInit() {
+    this.loadUsers();
+
+    this.statuses = [
+      { label: 'INSTOCK', value: 'instock' },
+      { label: 'LOWSTOCK', value: 'lowstock' },
+      { label: 'OUTOFSTOCK', value: 'outofstock' },
+    ];
+  }
   loadUsers() {
-    this.serviceUser.getAll().subscribe({
-      next: (res: any) => { // Specify the type of 'res' as 'any[]'
-        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
-        this.users = this.parseResponseToUser(res); // Parse the response
-        this.dataSource.data = this.users; // Update the dataSource with the new data
+    this.userService.getAll().subscribe({
+      next: (res: any) => {
+        // Specify the type of 'res' as 'any[]'
+        this.users = this.parseResponseToUser(res).flat(); // Parse the response
       },
       error: (err) => {
-        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
-      }
+        console.log(
+          '🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:',
+          err
+        );
+      },
     });
   }
   private parseResponseToUser(response: any[]): User[] {
-    return response.map(user => {
+    //@ts-ignore
+    return response.map((user) => {
       let rolesString = user.roles.map((role: any) => role.name).join(', ');
-      return {
-        userId: user.id,
-        username: user.username,
-        email: user.email,
-        roles: rolesString,
-        numtel: user.numtel,
-        status: user.status,
-        
-       };
+
+      // Check if the current user has the role "ROLE_MANAGER" and if rolesString contains only "ROLE_ADMIN"
+      if (this.role === 'ROLE_MANAGER' && rolesString === 'ROLE_ADMIN') {
+        // Return an empty array if the conditions are met
+        return [];
+      }
+      user.role = rolesString;
+      // Otherwise, return the user object as it is
+      return user;
+      //@ts-ignore
     });
   }
- 
-applyFilter(filterValue: string): void {
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+  openNew() {
+    //@ts-ignore
+    this.user = {};
+    this.submitted = false;
+    this.userDialog = true;
+  }
 
-openDialog(action: string, obj: any): void {
-  obj.action = action;
-  const dialogRef = this.dialog.open(AppUserDialogContentComponent, {
-    data: obj,
-  });
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result.event === 'Add') {
-      this.addRowData(result.data);
-    } else if (result.event === 'Update') {
-      this.updateRowData(result.data);
-    } else if (result.event === 'Delete') {
-      this.deleteRowData(result.data);
-    }
-  });
-}
+  deleteSelectedProducts() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected users?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.users = this.users.filter(
+          (val) => !this.selectedUsers?.includes(val)
+        );
+        this.selectedUsers = null;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Products Deleted',
+          life: 3000,
+        });
+      },
+    });
+  }
 
-// tslint:disable-next-line - Disables all
-addRowData(row_obj: UserAddRequest): void {
-  console.log("🚀 ~ AppUserComponent ~ addRowData ~ row_obj:", row_obj)
-  const userAddRequest: UserAddRequest = {
-      username: row_obj.username,
-      email: row_obj.email,
-      numtel: row_obj.numtel,
-      code: row_obj.code,
-      refnv: row_obj.refnv,
-      grade: row_obj.grade,
-      status: row_obj.status,
-   
-  };
+  editUser(user: User) {
+    this.user = { ...user };
+    this.userDialog = true;
 
-  // Call your addUser service passing the transformed userAddRequest
-  this.serviceUser.addUser(userAddRequest).subscribe({
-    next: (response) => {
-      console.log("User added successfully:", response);
-      this.loadUsers()
-    },
-    error: (error) => {
-      console.error("Error adding user:", error);
-      // Optionally handle error response here
-    }
-  });
+    this.formDialog = "update";
 
-  // Open your dialog and render rows as needed
-  this.dialog.open(AppAddUserComponent);
-  this.table.renderRows();
-}
+  }
 
-// tslint:disable-next-line - Disables all
-updateRowData(row_obj: UserAddRequest): void {
-  const userAddRequest: UserAddRequest = {
-    username: row_obj.username,
-    email: row_obj.email,
-    numtel: row_obj.numtel,
-    code: row_obj.code,
-    refnv: row_obj.refnv,
-    grade: row_obj.grade,
-    status: row_obj.status,
-  };
+  deleteUser(user: User) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + user.username + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.delete(user.id).subscribe({
+          next: () => {
+            this.loadUsers();
+            console.log('User deleted successfully.');
+          },
+          error: (error) => {
+            console.error('Error deleting user:', error);
+          },
+        });
+        //@ts-ignore
+        this.user = {};
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Product Deleted',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  hideDialog() {
+    this.userDialog = false;
+    this.submitted = false;
+    this.formDialog = "";
+
+  }
+
+  saveUser(value: string) {
+    this.user = {};
+
+    this.submitted = false;
+     this.userDialog = true;
+     this.formDialog = value;
+    console.log(this.selectedRole);
+    console.log(this.user);
+
+    // // this.user.id = this.createId();
+    // // this.user.image = 'product-placeholder.svg';
+    // this.user.roles = this.role
+    // this.users.push(this.user);
+    // this.messageService.add({
+    //   severity: 'success',
+    //   summary: 'Successful',
+    //   detail: 'Product Created',
+    //   life: 3000,
+    // });
+    // this.users = [...this.users];
+    // this.userDialog = false;
+    // //@ts-ignore
+    // this.user = {};
+    // //@ts-ignore
+    // this.roles = {};
+  }
+  addUser() {
+    this.submitted = true;
+    console.log(this.selectedRole);
+    console.log(this.user);
   //@ts-ignore
-  this.serviceUser.update(userAddRequest, row_obj.userId).subscribe({
-    next: (response) => {
-      console.log('User updated successfully:', response);
+    this.user.roles = [this.selectedRole]
+    console.log("🚀 ~ UsersComponent ~ addUser ~ this.user:", this.user)
+    this.userService.addUser(this.user).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadUsers()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
+    });
+    // // this.user.id = this.createId();
+    // // this.user.image = 'product-placeholder.svg';
+    // this.user.roles = this.role
+    // this.users.push(this.user);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Successful',
+      detail: 'Product Created',
+      life: 3000,
+    });
+    this.users = [...this.users];
+    this.userDialog = false;
+    //@ts-ignore
+    this.user = {};
+    //@ts-ignore
+    this.selectedRole = this.roles[1];
+    this.formDialog ="";
+  }
+  updateUser() {
+    this.submitted = true;
+    // this.user.id = this.createId();
+    // this.user.image = 'product-placeholder.svg';
+      //@ts-ignore
+    this.user.roles = [this.selectedRole]
 
-      this.loadUsers()
-    },
-    error: (error) => {
-      console.error('Error updating user:', error);
-      // You may handle any error message or other actions here
+    this.userService.update(this.user, this.user.id).subscribe({
+      next: (response) => {
+        console.log('User updated successfully:', response);
+
+        this.loadUsers();
+      },
+      error: (error) => {
+        console.error('Error updating user:', error);
+        // You may handle any error message or other actions here
+      },
+    });
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Successful',
+      detail: 'Product Created',
+      life: 3000,
+    });
+    this.users = [...this.users];
+    this.userDialog = false;
+    //@ts-ignore
+    this.user = {};
+    this.formDialog = "";
+
+  }
+
+  findIndexById(id: number): number {
+    let index = -1;
+    for (let i = 0; i < this.users.length; i++) {
+      if (this.users[i].id === id) {
+        index = i;
+        break;
+      }
     }
-  });
-}
 
-// tslint:disable-next-line - Disables all
-deleteRowData(row_obj: User): void {
-  this.serviceUser.delete(row_obj.userId).subscribe({
-    next: () => {
-      this.loadUsers()
-      console.log('User deleted successfully.');
-    },
-    error: (error) => {
-      console.error('Error deleting user:', error);
+    return index;
+  }
+
+  createId(): string {
+    let id = '';
+    var chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 5; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-  });
-}
-}
-
-@Component({
-// tslint:disable-next-line: component-selector
-selector: 'app-dialog-content',
-templateUrl: 'user-dialog-content.html',
-standalone: true,
-imports: [CommonModule, FormsModule, IconsModule , SidebarComponent, MaterialModule],
-})
-// tslint:disable-next-line: component-class-suffix
-export class AppUserDialogContentComponent {
-role: string |null = localStorage.getItem('role');
-action: string;
-// tslint:disable-next-line - Disables all
-local_data: any;
-selectedImage: any = '';
-joiningDate: any = '';
-
-constructor(
-  public datePipe: DatePipe,
-  public dialogRef: MatDialogRef<AppUserDialogContentComponent>,
-  // @Optional() is used to prevent error if no data is passed
-  @Optional() @Inject(MAT_DIALOG_DATA) public data: User,
-) {
-  this.local_data = { ...data };
-  this.action = this.local_data.action;
-  if (this.local_data.DateOfJoining !== undefined) {
-    this.joiningDate = this.datePipe.transform(
-      new Date(this.local_data.DateOfJoining),
-      'yyyy-MM-dd',
-    );
+    return id;
   }
-  if (this.local_data.imagePath === undefined) {
-    this.local_data.imagePath = 'assets/images/profile/user-1.jpg';
+  //@ts-ignore
+  getSeverity(status: any) {
+    switch (status) {
+      case 'INSTOCK':
+        return 'success';
+      case 'LOWSTOCK':
+        return 'warning';
+      case 'OUTOFSTOCK':
+        return 'danger';
+    }
   }
-}
-
-doAction(): void {
-  this.dialogRef.close({ event: this.action, data: this.local_data });
-}
-closeDialog(): void {
-  this.dialogRef.close({ event: 'Cancel' });
-}
-
-selectFile(event: any): void {
-  if (!event.target.files[0] || event.target.files[0].length === 0) {
-    // this.msg = 'You must select an image';
-    return;
-  }
-  const mimeType = event.target.files[0].type;
-  if (mimeType.match(/image\/*/) == null) {
-    // this.msg = "Only images are supported";
-    return;
-  }
-  // tslint:disable-next-line - Disables all
-  const reader = new FileReader();
-  reader.readAsDataURL(event.target.files[0]);
-  // tslint:disable-next-line - Disables all
-  reader.onload = (_event) => {
-    // tslint:disable-next-line - Disables all
-    this.local_data.imagePath = reader.result;
-  };
-}
-}
-
-interface UserAddRequest {
-  userId?: number ;
-  username?: string;
-  email?: string;
-  numtel?: string;
-  code?: string;
-  refnv?: string;
-  grade?: string;
-  status?: string;
 }
