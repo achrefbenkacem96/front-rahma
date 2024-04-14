@@ -1,6 +1,6 @@
- 
+
 import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
- 
+
 import { CommonModule } from '@angular/common';
 import { ContactCardComponent } from './contact-card/contact-card.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
@@ -29,13 +29,15 @@ export class ContactUs2Component implements OnInit {
   data : any = {
     title: "Contact Us 2"
   };
- 
+
   constructor(private plugins: PluginsService) { }
 
   public navItems: any = topMenuBarItems;
 
   ngOnInit() {
     // Init all plugins...
+    window.scrollTo(0, 0);
+
     const current = this;
     setTimeout(function() {
       current.plugins.index();

@@ -45,12 +45,12 @@ export class AppMenuComponent implements OnInit {
                         routerLink:  'users'
                     },
                     {
-                        label: 'Request',
+                        label: 'Demande',
                         icon: 'pi pi-fw pi-send',
                         routerLink:  'request'
                     },
                     {
-                        label: 'Complaints',
+                        label: 'Reclamations',
                         icon: 'pi pi-fw pi-info-circle',
                         routerLink:  'complaints'
                     },
@@ -95,12 +95,12 @@ export class AppMenuComponent implements OnInit {
                 items: [
 
                     {
-                        label: 'Request',
+                        label: 'Demande',
                         icon: 'pi pi-fw pi-send',
                         routerLink:  'request'
                     },
                     {
-                        label: 'Complaints',
+                        label: 'Reclamations',
                         icon: 'pi pi-fw pi-info-circle',
                         routerLink:  'complaints'
                     },
@@ -150,12 +150,12 @@ export class AppMenuComponent implements OnInit {
                 items: [
 
                     {
-                        label: 'Request',
+                        label: 'Demande',
                         icon: 'pi pi-fw pi-send',
                         routerLink:  'request'
                     },
                     {
-                        label: 'Complaints',
+                        label: 'Reclamations',
                         icon: 'pi pi-fw pi-info-circle',
                         routerLink:  'complaints'
                     },

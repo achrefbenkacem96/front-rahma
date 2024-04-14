@@ -9,27 +9,14 @@ import { RequestComponent } from './request/request.component';
 import { ComplaintsComponent } from './complaints/complaints.component';
 import { VirtualMachinesComponent } from './virtual-machines/virtual-machines.component';
 import { MessagingComponent } from './messaging/messaging.component';
+ import { authGuard } from '../services/auth.guard';
 
 export const routes: Routes = [
-//   {
-//     path: '',
-//     children: [
-//       {
-//         path: '',
-//         component:  DashboardComponent,
-//       },
-//       {
-//         path: 'users',
-//         component:  UsersComponent,
-//       },
 
-//     ],
-// }
-// ,
 {
   path: '',
   component: DashboardComponent,
-  // canActivate: [authGuard],
+  // canActivate: [authGuard ],
   // canActivateChild: [authGuard],
   children: [
     { path: '', redirectTo: '', pathMatch: 'full' },

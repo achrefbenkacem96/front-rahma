@@ -27,13 +27,15 @@ export class PricingPlanComponent implements OnInit {
   data : any = {
     title: "Pricing"
   };
-  
+
   constructor(private plugins: PluginsService) { }
 
   public navItems: any = topMenuBarItems;
 
   ngOnInit() {
     // Init all plugins...
+    window.scrollTo(0, 0);
+
     const current = this;
     setTimeout(function() {
       current.plugins.index();

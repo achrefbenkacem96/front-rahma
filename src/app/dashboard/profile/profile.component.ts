@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit{
   constructor(private messageService: MessageService, private userService: UserService) {}
 
   form = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    username: new FormControl('', [Validators.required, Validators.minLength(3)]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     email: new FormControl('', [Validators.required]),
     numtel: new FormControl('',),

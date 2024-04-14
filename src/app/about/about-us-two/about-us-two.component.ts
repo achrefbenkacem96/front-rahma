@@ -28,13 +28,15 @@ export class AboutUsTwoComponent implements OnInit {
   data : any = {
     title:"About Us 2"
   };
-  
+
   constructor(private plugins: PluginsService) { }
 
   public navItems: any = topMenuBarItems;
 
   ngOnInit() {
     // Init all plugins...
+    window.scrollTo(0, 0);
+
     const current = this;
     setTimeout(function() {
       current.plugins.index();

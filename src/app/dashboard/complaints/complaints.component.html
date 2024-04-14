@@ -1,1 +1,118 @@
-<p>complaints works!</p>
+<div class="card">
+  <p-toast></p-toast>
+  <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        @if(role != "ROLE_ADMIN"){
+          <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="saveReclamation('add')"></button>
+        }
+          <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedReclamations()" [disabled]="!selectedReclamations || !selectedReclamations.length"></button>
+      </ng-template>
+
+      <!-- <ng-template pTemplate="right">
+          <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+          <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+      </ng-template> -->
+  </p-toolbar>
+
+  <p-table
+      #dt
+      [value]="reclamations"
+      [rows]="5"
+      [paginator]="true"
+      [globalFilterFields]="role === 'ROLE_ADMIN' ?[ 'username', 'type', 'description', 'etat'] : [ 'type', 'description', 'etat'] "
+      [tableStyle]="{ 'min-width': '75rem' }"
+      [(selection)]="selectedReclamations"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
+  >
+      <ng-template pTemplate="caption">
+          <div class="flex align-items-center justify-content-between">
+              <h5 class="m-0">Manage Reclamations</h5>
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt.filter($any($event.target)?.value, 'nom', 'contains')"  placeholder="Search..." />
+              </span>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th style="width: 4rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="username" style="min-width:10rem">Username <p-sortIcon field="username"></p-sortIcon></th>
+              <th pSortableColumn="type" style="min-width:10rem">Type <p-sortIcon field="type"></p-sortIcon></th>
+                <th pSortableColumn="description" style="min-width:10rem">Description <p-sortIcon field="description"></p-sortIcon></th>
+              <th pSortableColumn="etat" style="min-width:10rem">Etat <p-sortIcon field="etat"></p-sortIcon></th>
+
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-reclamation>
+          <tr>
+              <td>
+                  <p-tableCheckbox [value]="reclamation"></p-tableCheckbox>
+              </td>
+              <td>{{ reclamation.user.username  }}</td>
+
+
+              <td>{{ reclamation.type  }}</td>
+               <td>{{ reclamation.description  }}</td>
+               <td><p-tag [value]="reclamation.etat" [severity]="getSeverity( reclamation.etat )"></p-tag></td>
+
+               <td class="d-flex">
+                  <button pButton pRipple  size="small" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editReclamation(reclamation)"></button>
+                  <button pButton pRipple  size="small"  icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteReclamation(reclamation)"></button>
+            </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between">In total there are {{ reclamations ? reclamations.length : 0 }} reclamations.</div>
+      </ng-template>
+  </p-table>
+</div>
+<p-dialog [(visible)]="reclamationDialog" [style]="{ width: '450px' }" header="reclamation Details" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    @if(role === "ROLE_ADMIN"){
+      <div class="row">
+        <div class="col-12 p-3">
+          <span class="p-float-label">
+      <label for="etat">Etat</label>
+      <p-dropdown [options]="Etats" [showClear]="true" [(ngModel)]="reclamation.etat"  placeholder="Etat" optionLabel="etat" inputId="etat"></p-dropdown>
+      <small class="p-error" *ngIf="submitted && !reclamation.etat">Etat is required.</small>
+
+   </span>
+   </div>
+   </div>
+
+  }
+    <div class="field">
+        <label for="type">Type</label>
+        <input type="text" [disabled]="role === 'ROLE_ADMIN' &&true" pInputText id="type" [(ngModel)]="reclamation.type" required autofocus />
+        <small class="p-error" *ngIf="submitted && !reclamation.type">Type is required.</small>
+    </div>
+      <div class="field">
+          <label for="description">Description</label>
+          <textarea [disabled]="role === 'ROLE_ADMIN' &&true" type="text" pInputText id="description" [(ngModel)]="reclamation.description" required autofocus  ></textarea>
+          <small class="p-error" *ngIf="submitted && !reclamation.description">Description is required.</small>
+        </div>
+
+
+
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <ng-container *ngIf="formDialog == 'update'" >
+      <button pButton pRipple label="Update" icon="pi pi-check" class="p-button-text" (click)="updateReclamation()"></button>
+    </ng-container>
+      <ng-container *ngIf="formDialog == 'add'" >
+
+        <button  pButton pRipple label="ADD" icon="pi pi-check" class="p-button-text" (click)="addReclamation()"></button>
+      </ng-container>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

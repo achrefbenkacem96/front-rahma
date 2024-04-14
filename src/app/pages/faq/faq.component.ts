@@ -27,7 +27,7 @@ export class FaqComponent implements OnInit {
   data : any = {
     title:"FAQ"
   };
-  
+
   List: any[] = [
     {
       img: './assets/images/blog/01.png',
@@ -58,6 +58,8 @@ export class FaqComponent implements OnInit {
 
   ngOnInit() {
     // Init all plugins...
+    window.scrollTo(0, 0);
+
     const current = this;
     setTimeout(function() {
       current.plugins.index();

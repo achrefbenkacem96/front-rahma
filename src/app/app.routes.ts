@@ -7,7 +7,7 @@ import { FaqComponent } from './pages/faq/faq.component';
 import { ContactUs2Component } from './contact-us/contact-us2.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { authGuard } from './services/auth.guard';
 
 export const routes: Routes = [
      {path:'', component: IndexComponent},
@@ -17,6 +17,8 @@ export const routes: Routes = [
      {path:'pages/faq', component: FaqComponent},
      {path:'login', component: LoginComponent},
      {path:'sign-up', component: SignUpComponent},
-     { path: 'dashboard', loadChildren: ()=> import('./dashboard/app.routes').then(m => m.routes) },
+     { path: 'dashboard',
+     canActivate:[authGuard],
+     loadChildren: ()=> import('./dashboard/app.routes').then(m => m.routes) },
       {path:'contact-us', component: ContactUs2Component}
  ];

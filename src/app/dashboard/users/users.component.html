@@ -17,7 +17,7 @@
       [value]="users"
       [rows]="5"
       [paginator]="true"
-      [globalFilterFields]="[ 'username', 'password', 'email', 'numtel', 'code', 'refnv', 'grade', 'status', 'role']"
+      [globalFilterFields]="[ 'username',   'email', 'numtel', 'code', 'refnv', 'grade', 'status', 'role']"
       [tableStyle]="{ 'min-width': '75rem' }"
       [(selection)]="selectedUsers"
       [rowHover]="true"
@@ -41,7 +41,7 @@
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
               <th pSortableColumn="username" style="min-width:15rem">Username <p-sortIcon field="username"></p-sortIcon></th>
-               <th pSortableColumn="password" >Password <p-sortIcon field="password"></p-sortIcon></th>
+               <!-- <th pSortableColumn="password" >Password <p-sortIcon field="password"></p-sortIcon></th> -->
               <th pSortableColumn="email" style="min-width:10rem">Email <p-sortIcon field="email"></p-sortIcon></th>
               <th pSortableColumn="numtel">Numtel <p-sortIcon field="numtel"></p-sortIcon></th>
               <th pSortableColumn="code" style="min-width:10rem">Code <p-sortIcon field="code"></p-sortIcon></th>
@@ -58,7 +58,7 @@
                   <p-tableCheckbox [value]="user"></p-tableCheckbox>
               </td>
                <td>{{ user.username  }}</td>
-               <td>{{ user.password  }}</td>
+               <!-- <td>{{ user.password  }}</td> -->
                <td>{{ user.email  }}</td>
                <td>{{ user.numtel  }}</td>
                <td>{{ user.code  }}</td>
@@ -66,7 +66,7 @@
                <td>{{ user.grade  }}</td>
 
                <td><p-tag [value]="user.status" [severity]="getSeverity(user.status)"></p-tag></td>
-               <td> {{user.role}} </td>
+               <td> {{user.role?.split('_')[1]}} </td>
                <td class="d-flex">
                   <button pButton pRipple  size="small" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
                   <button pButton pRipple  size="small"  icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(user)"></button>

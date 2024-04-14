@@ -1,1 +1,122 @@
-<p>request works!</p>
+<div class="card">
+  <p-toast></p-toast>
+  <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+          <button *ngIf="role != 'ROLE_ADMIN'" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="saveDemande('add')"></button>
+          <button  *ngIf="role === 'ROLE_ADMIN'" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDemandes()" [disabled]="!selectedDemandes || !selectedDemandes.length"></button>
+      </ng-template>
+
+      <!-- <ng-template pTemplate="right">
+          <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+          <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+      </ng-template> -->
+  </p-toolbar>
+
+  <p-table
+      #dt
+      [value]="demandes"
+      [rows]="5"
+      [paginator]="true"
+      [globalFilterFields]="role === 'ROLE_ADMIN' ?[ 'username', 'nom', 'acces', 'description', 'etat' ] : [ 'nom', 'acces', 'description', 'etat' ]"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      [(selection)]="selectedDemandes"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
+  >
+      <ng-template pTemplate="caption">
+          <div class="flex align-items-center justify-content-between">
+              <h5 class="m-0">Manage Demandes</h5>
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt.filter($any($event.target)?.value, 'nom', 'contains')"  placeholder="Search..." />
+              </span>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th style="width: 4rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="username" style="min-width:10rem">Username <p-sortIcon field="username"></p-sortIcon></th>
+              <th pSortableColumn="nom" style="min-width:15rem">Name <p-sortIcon field="nom"></p-sortIcon></th>
+               <th pSortableColumn="acces" >Acces <p-sortIcon field="acces"></p-sortIcon></th>
+              <th pSortableColumn="description" style="min-width:10rem">Description <p-sortIcon field="description"></p-sortIcon></th>
+              <th pSortableColumn="type" style="min-width:10rem">Type <p-sortIcon field="type"></p-sortIcon></th>
+              <th pSortableColumn="etat" style="min-width:10rem">Etat <p-sortIcon field="etat"></p-sortIcon></th>
+
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-demande>
+          <tr>
+              <td>
+                  <p-tableCheckbox [value]="demande"></p-tableCheckbox>
+              </td>
+              <td>{{ demande.user.username  }}</td>
+               <td>{{ demande.nom  }}</td>
+               <td>{{ demande.acces  }}</td>
+               <td>{{ demande.description  }}</td>
+               <td>{{ demande.type  }}</td>
+               <td><p-tag [value]="demande.etat" [severity]="getSeverity(demande.etat)"></p-tag></td>
+
+               <td class="d-flex">
+                  <button pButton pRipple  size="small" icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editDemande(demande)"></button>
+                  <button pButton pRipple  size="small"  icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteDemande(demande)"></button>
+            </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between">In total there are {{ demandes ? demandes.length : 0 }} demandes.</div>
+      </ng-template>
+  </p-table>
+</div>
+<p-dialog [(visible)]="demandeDialog" [style]="{ width: '450px' }" header="demande Details" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    @if(role === "ROLE_ADMIN"){
+      <div class="field">
+          <label for="etat">Etat</label>
+          <p-dropdown [options]="Etats" [showClear]="true" [(ngModel)]="demande.etat"  placeholder="Etat" optionLabel="etat" inputId="etat"></p-dropdown>
+          <small class="p-error" *ngIf="submitted && !demande.etat">Etat is required.</small>
+      </div>
+    }
+    <div class="field">
+          <label for="nom">Name</label>
+          <input type="text" pInputText id="nom" [(ngModel)]="demande.nom" required autofocus />
+          <small class="p-error" *ngIf="submitted && !demande.nom">Name is required.</small>
+      </div>
+      <div class="field">
+          <label for="acces">Acces</label>
+          <input type="text" pInputText id="acces" [(ngModel)]="demande.acces" required autofocus />
+          <small class="p-error" *ngIf="submitted && !demande.acces">Acces is required.</small>
+      </div>
+      <div class="field">
+          <label for="description">Description</label>
+          <textarea type="text" pInputText id="description" [(ngModel)]="demande.description" required autofocus  ></textarea>
+          <small class="p-error" *ngIf="submitted && !demande.description">Description is required.</small>
+      </div>
+
+      <div class="field">
+          <label for="type">Type</label>
+          <input type="text" pInputText id="type" [(ngModel)]="demande.type" required autofocus />
+          <small class="p-error" *ngIf="submitted && !demande.type">Type is required.</small>
+      </div>
+
+
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <ng-container *ngIf="formDialog == 'update'" >
+      <button pButton pRipple label="Update" icon="pi pi-check" class="p-button-text" (click)="updateDemande()"></button>
+    </ng-container>
+      <ng-container *ngIf="formDialog == 'add'" >
+
+        <button  pButton pRipple label="ADD" icon="pi pi-check" class="p-button-text" (click)="addDemande()"></button>
+      </ng-container>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -36,11 +36,15 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     // Init all plugins...
+    window.scrollTo(0, 0);
+
     const current = this;
     current.plugins.revolutionSlider();
     // tslint:disable-next-line:only-arrow-functions
     setTimeout(function() {
       current.plugins.index();
     }, 200);
+
+
   }
 }

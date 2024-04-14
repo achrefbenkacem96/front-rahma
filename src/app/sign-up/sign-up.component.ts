@@ -10,10 +10,10 @@ import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule, A
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgIf } from '@angular/common';
 import { MaterialModule } from '../material.module';
- 
+
 @Component({
   selector: 'app-sign-up',
-  standalone: true,  
+  standalone: true,
   imports: [TopBannerComponent,  MaterialModule,NgIf, HeaderComponent, FooterComponent, RouterModule, FormsModule, ReactiveFormsModule ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
@@ -29,9 +29,9 @@ export class SignUpComponent {
   data : any = {
     title:"Services"
   };
-  
+
   constructor(private plugins: PluginsService, private router: Router, private authentication: AuthenticationService) { }
- 
+
   public navItems: any = topMenuBarItems;
 
   ngOnInit() {
@@ -41,9 +41,9 @@ export class SignUpComponent {
       current.plugins.index();
     }, 200);
   }
- 
+
   form = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    username: new FormControl('', [Validators.required, Validators.minLength(3)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required]),
@@ -54,7 +54,7 @@ export class SignUpComponent {
     return this.form.controls;
   }
 
-  submit() {    
+  submit() {
     if (this.form.invalid) {
       alert("Please fix the errors in the form.");
       return;

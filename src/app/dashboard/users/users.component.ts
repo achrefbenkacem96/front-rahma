@@ -1,12 +1,8 @@
 import {
-  AfterViewInit,
   Component,
-  Inject,
   OnInit,
-  Optional,
-  ViewChild,
 } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
