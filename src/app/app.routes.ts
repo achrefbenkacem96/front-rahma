@@ -8,6 +8,7 @@ import { ContactUs2Component } from './contact-us/contact-us2.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { authGuard } from './services/auth.guard';
+import { VerificationComponent } from './verification/verification.component';
 
 export const routes: Routes = [
      {path:'', component: IndexComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
      {path:'pages/pricing-plan', component: PricingPlanComponent},
      {path:'pages/faq', component: FaqComponent},
      {path:'login', component: LoginComponent},
+     {path:'verify', component: VerificationComponent},
      {path:'sign-up', component: SignUpComponent},
      { path: 'dashboard',
      canActivate:[authGuard],

@@ -205,8 +205,8 @@ import { ProductService } from './dashboard/productservice';
     CardModule,
     RippleModule,
     StyleClassModule,
-     ],
-     bootstrap: [ UsersComponent ],
+     ]
+
 })
 
-export class Primeng {}
+export class PrimengModule {}

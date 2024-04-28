@@ -45,6 +45,7 @@ export class SignUpComponent {
   form = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.minLength(3)]),
     email: new FormControl('', [Validators.required, Validators.email]),
+    numtel: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required]),
   }, { validators: this.passwordMatchingValidator });
@@ -68,7 +69,7 @@ export class SignUpComponent {
       next:(res) => {
         //@ts-ignore
         if (res.message === "Utilisateur enregistré avec succès !") {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/verify']);
         } else {
           alert("Please fix the errors in the form.");
         }
@@ -82,7 +83,7 @@ export class SignUpComponent {
       }
       }
     })
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
   }
   private passwordMatchingValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password')?.value;

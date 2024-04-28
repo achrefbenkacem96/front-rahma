@@ -1,0 +1,38 @@
+   <!-- <div class="chat-container">
+    <div class="messages">
+      <div *ngFor="let message of messages" class="message">
+        <img *ngIf="message.isUser" src="your_photo_url" alt="User Photo">
+        <p>{{ message.text }}</p>
+        <img *ngIf="!message.isUser" src="chatbot_photo_url" alt="Chatbot Photo">
+        <span class="typing-indicator" *ngIf="message.isTyping">typing...</span>
+      </div>
+    </div>
+    <div class="input-container">
+      <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Type your message...">
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div> -->
+  <button class="chatbot-toggler" (click)="togglerChat()">
+    <span class="material-symbols-rounded"><img  src="./assets/images/chatbox-icon.svg" alt="Chatbot Photo"></span>
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <div class="chatbot show-chatbot"  [style.display]="!showChat ? 'none' : 'flex'">
+    <header>
+      <p class="text-white mb-2">Chatbot</p>
+      <span class="close-btn material-symbols-outlined">close</span>
+    </header>
+    <ul class="chatbox" >
+      <ng-container  *ngFor="let message of messages">
+        <li *ngIf="!message.isUser" class="chat incoming">
+          <p>{{ message.text }}</p>
+
+        </li>
+        <li *ngIf="message.isUser" class="chat outgoing"><p>{{ message.text }}</p></li>
+        <span class="typing-indicator" *ngIf="message.isTyping">typing...</span>
+      </ng-container>
+    </ul>
+    <div class="chat-input">
+      <textarea placeholder="Enter a message..." [(ngModel)]="userInput" (keyup.enter)="sendMessage()"  required></textarea>
+      <span   (click)="sendMessage()">send</span>
+    </div>
+  </div>

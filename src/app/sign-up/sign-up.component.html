@@ -43,6 +43,16 @@
                           </mat-hint>
                           }
                         </mat-form-field>
+
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Num Tel</mat-label>
+                        <mat-form-field appearance="outline" class="w-100" color="primary">
+                          <input matInput type="text" formControlName="numtel" />
+                          <mat-hint *ngIf="f['numtel'].touched && f['numtel'].errors?.['required']" class="m-b-16 error-msg">
+                            <div class="text-error">Num Tel is required.</div>
+                          </mat-hint>
+
+                        </mat-form-field>
+
                         <!-- password -->
                         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
                           >Password</mat-label
@@ -62,9 +72,9 @@
                           </mat-hint>
                           }
                         </mat-form-field>
-          
-          
-          
+
+
+
                         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Confirm Password</mat-label>
                         <mat-form-field appearance="outline" class="w-100" color="primary">
                           <input matInput type="password" formControlName="confirmPassword" />
@@ -75,8 +85,9 @@
                             <div class="text-error">Passwords do not match.</div>
                           </mat-hint>
                         </mat-form-field>
-          
-          
+
+
+
                         <div class="d-flex justify-content-end">
 
                           <button
@@ -88,7 +99,7 @@
                             Sign Up
                           </button>
                         </div>
-                           
+
                           </form>
                     </div>
                 </div>
